@@ -11,8 +11,10 @@
 	<groupId>com.bulat</groupId>
 	<artifactId>taskmanager</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name/>
-	<description/>
+	<name>task-manager-api</name>
+	<description>
+		Task Manager REST API built with Spring Boot and PostgreSQL
+	</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -66,6 +68,11 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.2.0</version>
 		</dependency>
 	</dependencies>
 
