@@ -17,27 +17,25 @@ REST API для управления задачами.
 Получение задачи по ID
 Обновление задачи
 Удаление задачи
-Запуск:
 
+Запуск:
 Создать базу данных PostgreSQL:
 CREATE DATABASE task_manager;
 Настроить application.properties Запустить: mvn spring-boot:run
-API Создать задачу
 
-POST /api/tasks
+API
+
+Создать задачу
+- POST /api/tasks
 
 Получить все задачи
-
-GET /api/tasks
+- GET /api/tasks
 
 Получить задачу по ID
-
-GET /api/tasks/{id}
+- GET /api/tasks/{id}
 
 Обновить задачу
-
-PUT /api/tasks/{id}
+- PUT /api/tasks/{id}
 
 Удалить задачу
-
-DELETE /api/tasks/{id}
+- DELETE /api/tasks/{id}
