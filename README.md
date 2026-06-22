@@ -10,6 +10,7 @@ REST API для управления задачами.
 - PostgreSQL
 - Spring Security
 - Lombok
+- 
 Возможности:
 
 Создание задачи
