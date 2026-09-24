@@ -1,13 +1,14 @@
 package com.bulat.taskmanager.dto;
 
 import com.bulat.taskmanager.entity.TaskPriority;
+import com.bulat.taskmanager.entity.TaskStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class CreateTaskRequest {
+public class UpdateTaskRequest {
 
     @NotBlank(message = "Title must not be blank")
     @Size(max = 200, message = "Title must not exceed 200 characters")
@@ -18,4 +19,7 @@ public class CreateTaskRequest {
 
     @NotNull(message = "Priority is required")
     private TaskPriority priority;
+
+    @NotNull(message = "Status is required")
+    private TaskStatus status;
 }
