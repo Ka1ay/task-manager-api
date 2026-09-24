@@ -1,42 +1,66 @@
-# `Task Manager API`
+# Task Manager API
 
-REST API для управления задачами.
+REST API для управления задачами на Java 17 и Spring Boot 3.
 
-Стек технологий:
+## Возможности
 
-- Java 17
-- Spring Boot 3
-- Spring Data JPA
-- PostgreSQL
-- Spring Security
-- Lombok
+- CRUD для задач;
+- валидация входных данных и единый JSON-формат ошибок;
+- пагинация, сортировка и фильтрация списка задач;
+- PostgreSQL и версионируемые миграции Flyway;
+- HTTP Basic-аутентификация для API;
+- интерактивная документация OpenAPI: `/swagger-ui/index.html`.
 
-Возможности:
+## Технологии
 
-Создание задачи
-Получение списка задач
-Получение задачи по ID
-Обновление задачи
-Удаление задачи
+Java 17, Spring Boot, Spring Web, Spring Data JPA, Spring Security, Bean Validation, PostgreSQL, Flyway, Lombok и springdoc-openapi.
 
-Запуск:
-Создать базу данных PostgreSQL:
-CREATE DATABASE task_manager;
-Настроить application.properties Запустить: mvn spring-boot:run
+## Запуск
 
-API
+1. Создайте БД: `CREATE DATABASE task_manager;`.
+2. Задайте настройки (пример для локальной разработки):
 
-Создать задачу
-- POST /api/tasks
+   ```bash
+   export DB_URL=jdbc:postgresql://localhost:5432/task_manager
+   export DB_USERNAME=postgres
+   export DB_PASSWORD=postgres
+   export APP_USERNAME=taskmanager
+   export APP_PASSWORD='replace-with-a-strong-password'
+   ```
 
-Получить все задачи
-- GET /api/tasks
+3. Запустите приложение: `bash ./mvnw spring-boot:run`.
 
-Получить задачу по ID
-- GET /api/tasks/{id}
+По умолчанию приложение доступно на `http://localhost:8080`. Не используйте значения по умолчанию для `APP_PASSWORD` вне локальной разработки.
 
-Обновить задачу
-- PUT /api/tasks/{id}
+## API
 
-Удалить задачу
-- DELETE /api/tasks/{id}
+Все `/api/**` endpoint’ы требуют HTTP Basic-аутентификацию. Swagger UI и OpenAPI-спецификация доступны без аутентификации.
+
+| Метод | Endpoint | Описание |
+| --- | --- | --- |
+| `POST` | `/api/tasks` | Создать задачу; возвращает `201 Created`. |
+| `GET` | `/api/tasks` | Получить страницу задач. |
+| `GET` | `/api/tasks/{id}` | Получить задачу по идентификатору. |
+| `PUT` | `/api/tasks/{id}` | Обновить задачу, включая её статус. |
+| `DELETE` | `/api/tasks/{id}` | Удалить задачу; возвращает `204 No Content`. |
+
+### Создание задачи
+
+```bash
+curl -u "$APP_USERNAME:$APP_PASSWORD" \
+  -X POST http://localhost:8080/api/tasks \
+  -H 'Content-Type: application/json' \
+  -d '{"title":"Подготовить релиз","description":"Проверить changelog","priority":"HIGH"}'
+```
+
+Допустимые значения `priority`: `LOW`, `MEDIUM`, `HIGH`. Новая задача создаётся в статусе `TODO`; возможные статусы: `TODO`, `IN_PROGRESS`, `DONE`.
+
+### Список задач
+
+`GET /api/tasks?page=0&size=20&sort=createdAt,desc&status=TODO&priority=HIGH`
+
+Параметры `status` и `priority` необязательны. Ответ имеет стандартный формат Spring `Page` и содержит записи в поле `content` и метаданные пагинации.
+
+### Ошибки
+
+Ошибки API возвращаются в едином формате с HTTP-статусом, сообщением, путём запроса и, для ошибок валидации, `fieldErrors`.
